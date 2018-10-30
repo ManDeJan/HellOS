@@ -44,7 +44,7 @@ pub const terminal = struct.{
     var column = usize(0);
     var color  = entry_color(Color.light_grey, Color.black);
 
-    const buffer = @intToPtr([*]volatile u16, 0xB8000);
+    const buffer = @intToPtr([*]volatile Entry, 0xB8000);
 
     fn initialize() void {
         var y = usize(0);
@@ -62,11 +62,7 @@ pub const terminal = struct.{
 
     fn putCharAt(c: u8, new_color: ColorPair, x: usize, y: usize) void {
         const index = y * WIDTH + x;
-        // I have to do align otherwise the ptrCast fails
-        const new_entry align(2) = entry(c, new_color);
-        // I dont know why bitcast here fails, but this seems to work
-        buffer[index] = @ptrCast(*const u16, &new_entry).*;
-        // buffer[index] = @bitCast(u16, new_entry);
+        buffer[index] = entry(c, new_color);
     }
 
     fn putChar(c: u8) void {

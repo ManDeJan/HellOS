@@ -46,6 +46,6 @@ fn kmain() void {
         const nc = vga.entry_color(@intToEnum(vga.Color, fg), @intToEnum(vga.Color, bg));
         terminal.setColor(nc);
         // https://en.wikipedia.org/wiki/Code_page_437
-        terminal.write("\xDD\xDE");
+        terminal.write("\xDD");
     }
 }
